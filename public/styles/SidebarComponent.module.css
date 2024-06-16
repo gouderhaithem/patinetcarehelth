@@ -1,0 +1,29 @@
+/* SidebarComponent.module.css */
+.sidebar {
+  width: 80px; /* Default width */
+  transition: width 0.3s ease;
+  background-color: #f4f4f4;
+  padding: 10px;
+  overflow-x: hidden; /* Hide horizontal overflow */
+}
+
+.sidebar.open {
+  width: 250px; /* Expanded width */
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.nav-link.active {
+  font-weight: bold;
+  color: #0056b3;
+}
+
+.nav-link:hover {
+  background-color: #ddd;
+}

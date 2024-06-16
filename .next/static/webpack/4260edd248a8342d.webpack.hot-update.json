@@ -1,0 +1,1 @@
+{"c":["pages/dashboard","webpack"],"r":["pages/scan-qr"],"m":["./components/UI/modal.tsx","./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?absolutePagePath=D%3A%5CReact%5Cpatientcare-main%5Cpages%5Cscan-qr.tsx&page=%2Fscan-qr!","./node_modules/react-qr-reader/dist/esm/index.js","./pages/scan-qr.tsx"]}
