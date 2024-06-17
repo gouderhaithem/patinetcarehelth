@@ -6,15 +6,18 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 
+
 export type User = {
   id:string;
+  nom:any;
+  prenom:any;
   firstname: string
   lastname: string
   email: string
   password: string
   role: string
   sex: string
-  statu: string
+  statut: string
   created_at: string
   updated_at: string
 }
