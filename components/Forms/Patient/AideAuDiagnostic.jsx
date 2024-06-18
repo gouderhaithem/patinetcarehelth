@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Upload, message, Modal, Input } from "antd";
+import { Button, Upload, message, Modal, Input, Progress } from "antd";
 import styles from "../../../public/styles/Layout.module.css";
 import axios from "axios";
 
@@ -112,15 +112,13 @@ const AideAuDiagnostic = ({ onSubmit, initialData }) => {
           {uploading ? "Uploading" : "Voir le resultat"}
         </Button>
       </>
-      {response && (
-        <div style={{ marginTop: 20, textAlign: "center" }}>
-          <h3>Résultats de l'analyse:</h3>
-          <p>
-            <strong>Qualité de l'image:</strong> {response.files[0].id}
-          </p>
-          {/* Displaying the file ID from the response */}
-        </div>
-      )}
+      {response && 
+      
+      <div style={{display : "flex" , flexDirection:"column",gap:"1rem",justifyContent:"center",alignItem:"center", paddingLeft:"1.1rem"}}>
+<h2> pathologique </h2>
+<Progress type="circle" percent={75}  size={150} strokeColor={  '#FFC0CB' }/>
+      </div>
+      }
       <Button type="primary" onClick={showModal}>
         Laisser une note
       </Button>
