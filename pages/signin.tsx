@@ -72,24 +72,11 @@ const SignInPage = ({ members }) => {
                     paddingTop: '50px',
                     flex: "50%",
                 }}>
-                    <h1>À propos de Patientcare</h1>
-                    <p style={{ fontSize: '18px' }}>
-                        Patientcare est une application de bureau innovante développée par des étudiants,
-                        conçue pour gérer les dossiers médicaux des patients en Algérie. Chaque patient
-                        se voit attribuer un code QR unique qui facilite l'accès rapide à ses informations médicales
-                        par les infirmières et le personnel médical à l'hôpital.
+                    <h1>À propos </h1>
+                    <p style={{ fontSize: '18px' , paddingBottom:"1rem" }}>
+                    Patientcare est une application  innovante pour la gestion des dossiers médicaux en Algérie, développée par des étudiants. Chaque patient reçoit un code QR unique pour un accès sécurisé à ses informations médicales. L'application inclut un système intelligent aidant les médecins dans le diagnostic, améliorant ainsi l'efficacité des soins. Nous sommes les premiers en Algérie à proposer cette solution, visant à rendre les consultations plus fluides et moins stressantes.
                     </p>
-                    <p style={{ fontSize: '18px' }}>
-                        L'application permet une lecture rapide du code QR du patient dès son arrivée,
-                        garantissant un accès instantané et sécurisé à son dossier médical. Cela simplifie
-                        considérablement le processus de consultation et améliore l'efficacité des soins.
-                    </p>
-                    <p style={{ fontSize: '18px' }}>
-                        Nous sommes les premiers à lancer une telle initiative en Algérie, avec l'ambition
-                        de révolutionner le système de gestion des dossiers médicaux dans le pays.
-                        Notre vision est de rendre les consultations médicales plus fluides et moins stressantes
-                        pour les patients et le personnel soignant.
-                    </p>
+                  
                     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px' }}>
                         {members.map(member => (
                             <div key={member.id} style={{
@@ -119,10 +106,10 @@ const SignInPage = ({ members }) => {
                                             fontSize: '24px',
                                             cursor: 'pointer'
                                         }}>
-                                            {platform === 'twitter' && <FaTwitter />}
+                                            
                                             {platform === 'linkedin' && <FaLinkedin />}
-                                            {platform === 'facebook' && <FaFacebook />}
-                                            {platform === 'website' && <FaGlobe />}
+                                           
+                                         
                                             {platform === 'email' && <FaEnvelope />}
                                             {platform === 'phone' && <FaPhone />}
                                         </a>
