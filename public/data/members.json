@@ -3,14 +3,13 @@
     "id": 1,
     "firstName": "Benouar",
     "lastName": "Amel ",
-    "role": "Médecin",
-    "email":"amelbenouar@gmailcom",
-    "university": "Université de Paris",
-    "masters": "Chirurgie",
+    "role": "Ingénieur Biomédical",
+    "email": "amelbenouar@gmailcom",
+    "university": "Université Abou Bekr Belkaid, Tlemcen",
     "image": "1.jpg",
     "socialMedia": {
       "twitter": "https://twitter.com/jeandupont",
-      "linkedin": "https://www.linkedin.com/in/jeandupont",
+      "linkedin": "https://www.linkedin.com/in/amel-benouar-2500321a1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "facebook": "https://www.facebook.com/jeandupont",
       "email": "amelbenouar@gmailcom",
       "phone": "0606060606"
@@ -20,18 +19,16 @@
     "id": 2,
     "firstName": "Ghettas",
     "lastName": "ibtihal",
-    "role": "Médecin",
-    "email":" ghettasibtihal@gmail.com",
-    "university": "Université de Paris",
-    "masters": "Chirurgie",
+    "role": "Ingénieur Biomédical",
+    "email": " ghettasibtihal@gmail.com",
+    "university": "Université Abou Bekr Belkaid, Tlemcen",
     "image": "1.jpg",
     "socialMedia": {
       "twitter": "https://twitter.com/jeandupont",
-      "linkedin": "https://www.linkedin.com/in/jeandupont",
+      "linkedin": "/",
       "facebook": "https://www.facebook.com/jeandupont",
       "email": "amelbenouar@gmailcom",
       "phone": "0606060606"
     }
   }
-
 ]
