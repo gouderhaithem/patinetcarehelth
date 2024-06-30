@@ -9,11 +9,33 @@ import { useUser } from '../context/UserContext';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 
-const SignInPage = ({ members }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+interface SocialMedia {
+    twitter?: string;
+    linkedin?: string;
+    facebook?: string;
+    email?: string;
+}
+
+interface Member {
+    id: number;
+    firstName: string;
+    lastName: string;
+    role: string;
+    email: string;
+    university: string;
+    image: string;
+    socialMedia: SocialMedia;
+}
+
+interface SignInPageProps {
+    members: Member[];
+}
+
+const SignInPage: React.FC<SignInPageProps> = ({ members }) => {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
     const { user, login, logout } = useUser();
 
@@ -22,8 +44,8 @@ const SignInPage = ({ members }) => {
             redirectToRolePage(user.role);
         }
     }, [user, router]);
-    
-    const redirectToRolePage = (role) => {
+
+    const redirectToRolePage = (role: string) => {
         switch (role) {
             case 'admin':
             case 'infirmière':
@@ -36,11 +58,11 @@ const SignInPage = ({ members }) => {
         }
     };
 
-    const handleClick = (link:string) => {
+    const handleClick = (link: string) => {
         // Handle social media link clicks
     };
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setLoading(true);
         try {
@@ -73,10 +95,10 @@ const SignInPage = ({ members }) => {
                     flex: "50%",
                 }}>
                     <h1>À propos </h1>
-                    <p style={{ fontSize: '18px' , paddingBottom:"1rem" }}>
-                    Patientcare est une application  innovante pour la gestion des dossiers médicaux en Algérie, développée par des étudiants. Chaque patient reçoit un code QR unique pour un accès sécurisé à ses informations médicales. L'application inclut un système intelligent aidant les médecins dans le diagnostic, améliorant ainsi l'efficacité des soins. Nous sommes les premiers en Algérie à proposer cette solution, visant à rendre les consultations plus fluides et moins stressantes.
+                    <p style={{ fontSize: '18px', paddingBottom: "1rem" }}>
+                        Patientcare est une application innovante pour la gestion des dossiers médicaux en Algérie, développée par des étudiants. Chaque patient reçoit un code QR unique pour un accès sécurisé à ses informations médicales. L'application inclut un système intelligent aidant les médecins dans le diagnostic, améliorant ainsi l'efficacité des soins. Nous sommes les premiers en Algérie à proposer cette solution, visant à rendre les consultations plus fluides et moins stressantes.
                     </p>
-                  
+
                     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px' }}>
                         {members.map(member => (
                             <div key={member.id} style={{
@@ -96,21 +118,24 @@ const SignInPage = ({ members }) => {
                                     }} />
                                 <div style={{ marginBottom: '10px' }}>
                                     <div>{member.firstName} {member.lastName}</div>
-                                    <div>{member.role} - {member.university}, {member.masters}</div>
+                                    <div>{member.role} - {member.university}</div>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-                                    {Object.entries(member.socialMedia).map(([platform, link]) => (
-                                   <a key={platform} ref={platform === 'email' ? `mailto:${link}` : link} onClick={() => handleClick(link)} style={{
-                                    color: '#007bff',
-                                    textDecoration: 'none',
-                                    fontSize: '24px',
-                                    cursor: 'pointer'
-                                }}>
-                                    {platform === 'linkedin' && <FaLinkedin />}
-                                    {platform === 'email' && <FaEnvelope />}
-                                    {platform === 'phone' && <FaPhone />}
-                                </a>
-                                    ))}
+                                    {
+                                        Object.entries(member.socialMedia).map(([platform, link]) => (
+                                            <a key={platform} href={platform === 'email' ? `mailto:${link}` : link} onClick={() => handleClick(link!)} style={{
+                                                color: '#007bff',
+                                                textDecoration: 'none',
+                                                fontSize: '24px',
+                                                cursor: 'pointer'
+                                            }}>
+                                                {platform === 'linkedin' && <FaLinkedin />}
+                                                {platform === 'email' && <FaEnvelope />}
+                                                {platform === 'phone' && <FaPhone />}
+                                                {platform === 'twitter' && <FaTwitter />}
+                                                {platform === 'facebook' && <FaFacebook />}
+                                            </a>
+                                        ))}
                                 </div>
                             </div>
                         ))}
@@ -161,7 +186,7 @@ const SignInPage = ({ members }) => {
 
 export async function getStaticProps() {
     const membersData = await import('../public/data/members.json');
-    const members = membersData.default;
+    const members: Member[] = membersData.default;
     return { props: { members } };
 };
 
