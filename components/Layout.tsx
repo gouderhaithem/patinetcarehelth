@@ -47,7 +47,7 @@ const Layout = ({ children, title = 'Patientcare', user }: Props) => {
                    <li> <Link href="/"><a className={isActive('/')} >Connexion</a></Link></li>
                    
            <li>         <Link href="/contact"><a className={isActive('/contact')} >Contact</a></Link></li>
-           <li> <Link href="/about"><a className={isActive('/')} >About-US</a></Link></li>
+           <li> <Link href="/about"><a className={isActive('/')} >à propos</a></Link></li>
                 </ul>
             );
         }
@@ -148,23 +148,23 @@ const Layout = ({ children, title = 'Patientcare', user }: Props) => {
 <Image src="/images/icon.png" alt="Company Logo" width={60} height={60} style={{paddingRight:"1rem"}}/>
 <ul className={styles.menu}>
         <li>
-          <a href="">About-us </a>{" "}
+          <a href="">à propos</a>{" "}
         </li>
         <li>|</li>
         <li>
-          <a href="">Contact-US </a>
+          <a href="">Contactez-nous </a>
         </li>
         <li>|</li>
         <li>
-          <a href="">Add with-US </a>
+          <a href="">sponsors</a>
         </li>
         <li>|</li>
         <li>
-          <a href="">Privcy Policy </a>
+          <a href="">politique de confidentialité </a>
         </li>
       </ul>
       <div style={{ color: "black" }}>
-        <p>&copy; Patientcare.com Inc. All Rights Reserved.</p>
+        <p>&copy; Patientcare.com Inc. Tous droits réservés.</p>
       </div>
     </footer>
             <style jsx global>{`
