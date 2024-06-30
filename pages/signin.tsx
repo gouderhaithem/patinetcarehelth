@@ -36,7 +36,7 @@ const SignInPage = ({ members }) => {
         }
     };
 
-    const handleClick = (link) => {
+    const handleClick = (link:string) => {
         // Handle social media link clicks
     };
 
@@ -100,16 +100,16 @@ const SignInPage = ({ members }) => {
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
                                     {Object.entries(member.socialMedia).map(([platform, link]) => (
-                                        <a key={platform} href={platform === 'email' ? `mailto:${link}` : link} onClick={() => handleClick(link)} style={{
-                                            color: '#007bff',
-                                            textDecoration: 'none',
-                                            fontSize: '24px',
-                                            cursor: 'pointer'
-                                        }}>
-                                            {platform === 'linkedin' && <FaLinkedin />}
-                                            {platform === 'email' && <FaEnvelope />}
-                                            {platform === 'phone' && <FaPhone />}
-                                        </a>
+                                   <a key={platform} ref={platform === 'email' ? `mailto:${link}` : link} onClick={() => handleClick(link)} style={{
+                                    color: '#007bff',
+                                    textDecoration: 'none',
+                                    fontSize: '24px',
+                                    cursor: 'pointer'
+                                }}>
+                                    {platform === 'linkedin' && <FaLinkedin />}
+                                    {platform === 'email' && <FaEnvelope />}
+                                    {platform === 'phone' && <FaPhone />}
+                                </a>
                                     ))}
                                 </div>
                             </div>
