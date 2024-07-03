@@ -62,7 +62,7 @@ const WithClientSideFetch = () => {
         const lowerCaseSearchTerm = searchTerm.toLowerCase();
         setFilteredPatients(searchTerm ? items.filter(patient =>
             (patient.personalInfo?.firstName?.toLowerCase().includes(lowerCaseSearchTerm) ||
-            patient.personalInfo?.lastName?.toLowerCase().includes(lowerCaseSearchTerm)||patient.personalInfo?.phoneNumber.toLowerCase().includes(lowerCaseSearchTerm) )
+            patient.personalInfo?.lastName?.toLowerCase().includes(lowerCaseSearchTerm)||patient.personalInfo?.socialSecurityNumber.toLowerCase().includes(lowerCaseSearchTerm) ||patient.personalInfo?.address.toLowerCase().includes(lowerCaseSearchTerm))
         ) : items);
     }, [searchTerm, items]);
 
