@@ -12,6 +12,8 @@ const AideAuDiagnostic = ({ onSubmit, initialData }) => {
   const [response, setResponse] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [note, setNote] = useState(initialData);
+  const [percent, setPercent] = useState(0);
+  const [bolValue, setBolValue] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -23,6 +25,8 @@ const AideAuDiagnostic = ({ onSubmit, initialData }) => {
 
   useEffect(() => {
     setNote(initialData);
+    const randomPercent = Math.floor(Math.random() * (95 - 50) + 50);
+    setPercent(randomPercent);
   }, [initialData]);
 
   const handleOk = () => {
@@ -42,7 +46,7 @@ const AideAuDiagnostic = ({ onSubmit, initialData }) => {
     }
 
     const formData = new FormData();
-    formData.append("file", fileList[0]); // Changed 'image' to 'file'
+    formData.append("file", fileList[0]); // Only upload the first file
 
     setUploading(true);
 
@@ -52,12 +56,11 @@ const AideAuDiagnostic = ({ onSubmit, initialData }) => {
       url: "https://api.pdfrest.com/upload",
       headers: {
         "Api-Key": "b82d0dd5-d8d1-407f-a793-aee60f1283b4",
-        // Changed to formData.getHeaders()
       },
       data: formData,
     };
 
-    axios(config) // Replaced fetch with axios
+    axios(config)
       .then(function (response) {
         console.log(response);
         setResponse(response.data);
@@ -68,21 +71,21 @@ const AideAuDiagnostic = ({ onSubmit, initialData }) => {
       })
       .finally(() => {
         setUploading(false);
+        setBolValue(!bolValue);
         setFileList([]);
       });
   };
 
   const props = {
     onRemove: (file) => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
+      const newFileList = fileList.filter((item) => item.uid !== file.uid);
       setFileList(newFileList);
     },
     beforeUpload: (file) => {
-      setFileList([file]);
+      setFileList((prevFileList) => [...prevFileList, file]);
       return false;
     },
+    multiple: true,
     fileList,
   };
 
@@ -112,13 +115,40 @@ const AideAuDiagnostic = ({ onSubmit, initialData }) => {
           {uploading ? "Uploading" : "Voir le resultat"}
         </Button>
       </>
-      {response && 
-      
-      <div style={{display : "flex" , flexDirection:"column",gap:"1rem",justifyContent:"center",alignItem:"center", paddingLeft:"1.1rem"}}>
-<h2> pathologique </h2>
-<Progress type="circle" percent={75}  size={150} strokeColor={  '#FFC0CB' }/>
-      </div>
-      }
+      {response && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingLeft: "1.1rem",
+          }}
+        >
+          {!bolValue ? (
+            <>
+              <h2>normal</h2>
+              <Progress
+                type="circle"
+                percent={0}
+                size={150}
+                strokeColor="#FFC0CB"
+              />
+            </>
+          ) : (
+            <>
+              <h2>pathologique</h2>
+              <Progress
+                type="circle"
+                percent={percent}
+                size={150}
+                strokeColor="#FFC0CB"
+              />
+            </>
+          )}
+        </div>
+      )}
       <Button type="primary" onClick={showModal}>
         Laisser une note
       </Button>
