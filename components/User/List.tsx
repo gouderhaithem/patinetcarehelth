@@ -9,7 +9,7 @@ type Props = {
 
 const UsersList = ({ users }: Props) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const usersPerPage = 10;
+    const usersPerPage = 8;
     const totalPages = Math.ceil(users.length / usersPerPage);
 
     const indexOfLastUser = currentPage * usersPerPage;
@@ -45,12 +45,7 @@ const UsersList = ({ users }: Props) => {
                     <tr>
                         <th style={styles.th}>Index</th>
                         <th style={styles.th}>Name</th>
-                        <th style={{backgroundColor:'#f2f2f2',color: '#333',
-            padding: '12px 15px',
-            border: '1px solid #e0e0e0',
-            fontSize: '14px',
-            textAlign: 'left' as 'left',
-            whiteSpace: 'nowrap', width:"20rem"}}>Email</th>
+                        <th style={{ ...styles.th, width: "20rem" }}>Email</th>
                         <th style={styles.th}>Role</th>
                         <th style={styles.th}>Status</th>
                         <th style={styles.th}>Created At</th>
@@ -59,7 +54,7 @@ const UsersList = ({ users }: Props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentUsers.map((user) => (
+                    {currentUsers.map((user, index) => (
                         <ListItems key={user.id} data={user} />
                     ))}
                 </tbody>
