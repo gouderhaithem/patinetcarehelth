@@ -1,5 +1,5 @@
 import React from "react";
-import {FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight} from "react-icons/fa";
+import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
     const styles = {
@@ -63,7 +63,6 @@ const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
                 <FaAngleDoubleRight />
             </a>
         </div>
-
     );
 };
 
