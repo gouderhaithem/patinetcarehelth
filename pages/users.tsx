@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
-import List from '../components/User/List';
+
 import { User } from '../interfaces';
 import { useUser } from '../context/UserContext';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
+import UsersList from '../components/User/List';
 
 const WithClientSideFetch = () => {
     const { user } = useUser();
@@ -17,18 +18,12 @@ const WithClientSideFetch = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
-   
-    
-
 
     useEffect(() => {
         if (user === null) {
-            // Redirect to the sign-in page if no user is found
             router.push('/signin');
-        } 
+        }
     }, [user, router]);
-
-
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -40,7 +35,6 @@ const WithClientSideFetch = () => {
                     ...doc.data()
                 } as User));
 
-                // Convert Firestore timestamps to serializable formats
                 const convertTimestamps = (data: any) => {
                     for (const key in data) {
                         if (data[key] instanceof Object && 'seconds' in data[key] && 'nanoseconds' in data[key]) {
@@ -118,7 +112,7 @@ const WithClientSideFetch = () => {
             </Layout>
         );
     }
-console.log(items)
+
     return (
         <Layout title="Liste des utilisateurs" user={user}>
             <h1>Liste des Utilisateurs</h1>
@@ -140,8 +134,7 @@ console.log(items)
                     ))}
                 </div>
             )}
-            <List users={filteredUsers.map((user, index) => ({ ...user, index: index + 1 }))} />
-
+            <UsersList users={filteredUsers.map((user, index) => ({ ...user, index: index + 1 }))} />
         </Layout>
     );
 };
