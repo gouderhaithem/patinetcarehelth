@@ -17,9 +17,6 @@ const WithClientSideFetch = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
     const [loading, setLoading] = useState(true);
-   
-   
-   
 
     useEffect(() => {
         const fetchPatients = async () => {
@@ -62,7 +59,9 @@ const WithClientSideFetch = () => {
         const lowerCaseSearchTerm = searchTerm.toLowerCase();
         setFilteredPatients(searchTerm ? items.filter(patient =>
             (patient.personalInfo?.firstName?.toLowerCase().includes(lowerCaseSearchTerm) ||
-            patient.personalInfo?.lastName?.toLowerCase().includes(lowerCaseSearchTerm)||patient.personalInfo?.socialSecurityNumber.toLowerCase().includes(lowerCaseSearchTerm) ||patient.personalInfo?.address.toLowerCase().includes(lowerCaseSearchTerm))
+            patient.personalInfo?.lastName?.toLowerCase().includes(lowerCaseSearchTerm) ||
+            patient.personalInfo?.socialSecurityNumber.toLowerCase().includes(lowerCaseSearchTerm) ||
+            patient.personalInfo?.address.toLowerCase().includes(lowerCaseSearchTerm))
         ) : items);
     }, [searchTerm, items]);
 
