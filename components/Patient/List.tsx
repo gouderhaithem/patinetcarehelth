@@ -9,7 +9,7 @@ type Props = {
 
 const List = ({ patients }: Props) => {
     const [currentPage, setCurrentPage] = React.useState(1);
-    const patientsPerPage = 10;
+    const patientsPerPage = 8;
     const totalPages = Math.ceil(patients.length / patientsPerPage);
 
     const indexOfLastPatient = currentPage * patientsPerPage;
@@ -46,27 +46,12 @@ const List = ({ patients }: Props) => {
                         <th style={styles.th}>Identifiant</th>
                         <th style={styles.th}>Nom</th>
                         <th style={styles.th}>Prénom</th>
-                        <th style={{    backgroundColor: '#f2f2f2',
-            color: '#333',
-            padding: '12px 15px',
-            border: '1px solid #e0e0e0',
-            fontSize: '14px',
-            textAlign: 'left' as 'left',
-            whiteSpace: 'nowrap',
-            width:"160px"}}>Date de naissance</th>
+                        <th style={{ ...styles.th, width: "160px" }}>Date de naissance</th>
                         <th style={styles.th}>Adresse</th>
-                        <th style={{    backgroundColor: '#f2f2f2',
-            color: '#333',
-            padding: '12px 15px',
-            border: '1px solid #e0e0e0',
-            fontSize: '14px',
-            textAlign: 'left' as 'left',
-            whiteSpace: 'nowrap',
-            width:"70px"}}>Sexe</th>
+                        <th style={{ ...styles.th, width: "70px" }}>Sexe</th>
                         <th style={styles.th}>№ de téléphone</th>
-                       
                         <th style={styles.th}>№ de s sociale</th>
-                        <th style={styles.th}> profile</th>
+                        <th style={styles.th}>Profile</th>
                     </tr>
                 </thead>
                 <tbody>
