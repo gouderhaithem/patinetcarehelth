@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase'; // Adjust the import path as needed
 import PersonalInfoForm, { PersonalInfoFormData } from './Patient/PersonalInfoForm';
 import DrugAllergiesForm from './Patient/DrugAllergiesForm';
@@ -14,22 +14,38 @@ import { toast } from "react-hot-toast";
 import QRCode from 'qrcode.react';
 import Modal from 'react-modal';
 import AnalysisForm from './Patient/analysisForm';
-import  { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import AideAuDiagnostic from './Patient/AideAuDiagnostic';
-
-const stepComponents = [
-    { name: 'Informations Personnelles', component: PersonalInfoForm },
-    { name: 'Informations Médicales', component: MedicalInfoForm },
-    { name: 'Allergies Médicamenteuses', component: DrugAllergiesForm },
-    { name: 'Maladies Chroniques', component: ChronicDiseasesForm },
-    { name: 'Examens', component: ExamForm },
-    { name: 'Analyses', component: AnalysisForm },
-    {name: "Aide au diagnostic" , component: AideAuDiagnostic},
-    { name: 'Récapitulatif', component: PatientSummary },
-];
+import { useUser } from '../../context/UserContext';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const PatientCreationContainer = () => {
+    const { user } = useUser();
     const router = useRouter();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (user === null) {
+            // Redirect to the sign-in page if no user is found
+            router.push('/signin');
+        } else {
+            // User data is available, stop loading
+            setLoading(false);
+        }
+    }, [user, router]);
+
+    const stepComponents = [
+        { name: 'Informations Personnelles', component: PersonalInfoForm },
+        { name: 'Informations Médicales', component: MedicalInfoForm },
+        { name: 'Allergies Médicamenteuses', component: DrugAllergiesForm },
+        { name: 'Maladies Chroniques', component: ChronicDiseasesForm },
+        { name: 'Examens', component: ExamForm },
+        { name: 'Analyses', component: AnalysisForm },
+        ...(user?.role === 'docteur' ? [{ name: 'Aide au diagnostic', component: AideAuDiagnostic }] : []),
+        { name: 'Récapitulatif', component: PatientSummary },
+    ];
+
     const [currentStep, setCurrentStep] = useState(0);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [patientId, setPatientId] = useState('');
@@ -97,9 +113,6 @@ const PatientCreationContainer = () => {
         setAideAuDiagnostic(data);
         goNext();
     };
-    
-
-
 
     const notify = (text) => {
         toast.success(text);
@@ -113,7 +126,7 @@ const PatientCreationContainer = () => {
             chronicDiseases,
             exams,
             analysis,
-             aideAuDiagnostic,
+            aideAuDiagnostic,
         };
 
         try {
@@ -136,6 +149,7 @@ const PatientCreationContainer = () => {
     };
 
     const renderCurrentForm = () => {
+        const { component: Component } = stepComponents[currentStep];
         switch (currentStep) {
             case 0:
                 return <PersonalInfoForm initialData={personalInfo} onSubmit={handlePersonalInfoSubmit} />;
@@ -150,7 +164,20 @@ const PatientCreationContainer = () => {
             case 5:
                 return <AnalysisForm initialData={analysis} onSubmit={handleAnalysisSubmit} />;
             case 6:
-                return <AideAuDiagnostic initialData={aideAuDiagnostic} onSubmit={handleAideDiagnostic} />;
+                if (user?.role === 'docteur') {
+                    return <AideAuDiagnostic initialData={aideAuDiagnostic} onSubmit={handleAideDiagnostic} />;
+                } else {
+                    return <PatientSummary
+                        personalInfo={personalInfo}
+                        medicalInfo={medicalInfo}
+                        drugAllergies={drugAllergies}
+                        chronicDiseases={chronicDiseases}
+                        exams={exams}
+                        analysis={analysis}
+                        aideAuDiagnostic={aideAuDiagnostic}
+                        onSubmit={handleFinalSubmit}
+                    />;
+                }
             case 7:
                 return (
                     <PatientSummary
@@ -168,7 +195,7 @@ const PatientCreationContainer = () => {
                 return null;
         }
     };
-    
+
     const downloadQRCode = () => {
         const canvas = document.getElementById('qrCode') as HTMLCanvasElement;
         const pngUrl = canvas
@@ -183,6 +210,21 @@ const PatientCreationContainer = () => {
         notify("The QR Code downloaded successfully");
         router.push('/patients');
     };
+
+    if (loading) {
+        return (
+            <div style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                height: '100vh' 
+            }}>
+                <Spin 
+                    indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} 
+                />
+            </div>
+        );
+    }
 
     return (
         <div style={{ display: 'flex' }}>
