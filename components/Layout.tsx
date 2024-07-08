@@ -82,10 +82,13 @@ const Layout = ({ children, title = 'Patientcare', user }: Props) => {
 
     return  (
         <div className="layout-container">
-            <Head>
+          <Head>
                 <title>{title}</title>
                 <meta charSet="utf-8"/>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+    
+      <link rel="shortcut icon" href="/public/favicon.ico" />
+    
             </Head>
             <header className={styles.navStyle}>
              <div id="logo" onClick={handleReturnProfile} >
