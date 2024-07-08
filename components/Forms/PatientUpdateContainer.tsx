@@ -13,22 +13,14 @@ import { toast } from "react-hot-toast";
 import { Toaster } from 'react-hot-toast';
 import AnalysisForm from "./Patient/analysisForm";
 import AideAuDiagnostic from "./Patient/AideAuDiagnostic";
-
-const stepComponents = [
-    { name: "Informations Personnelles", component: PersonalInfoForm },
-    { name: "Allergies Médicamenteuses", component: DrugAllergiesForm },
-    { name: "Maladies Chroniques", component: ChronicDiseasesForm },
-    { name: "Examens", component: ExamForm },
-    { name: "Analyses", component: AnalysisForm },
-    { name: "Aide au diagnostic", component: AideAuDiagnostic },
-    { name: "Récapitulatif", component: PatientSummary }
-];
+import { useUser } from '../../context/UserContext';
 
 interface PatientUpdateContainerProps {
     patientId: string;
 }
 
 const PatientUpdateContainer: React.FC<PatientUpdateContainerProps> = ({ patientId }) => {
+    const { user } = useUser();
     const router = useRouter();
     const [currentStep, setCurrentStep] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -166,6 +158,16 @@ const PatientUpdateContainer: React.FC<PatientUpdateContainerProps> = ({ patient
         }
     };
 
+    const stepComponents = [
+        { name: "Informations Personnelles", component: PersonalInfoForm },
+        { name: "Allergies Médicamenteuses", component: DrugAllergiesForm },
+        { name: "Maladies Chroniques", component: ChronicDiseasesForm },
+        { name: "Examens", component: ExamForm },
+        { name: "Analyses", component: AnalysisForm },
+        ...(user?.role === 'docteur' ? [{ name: "Aide au diagnostic", component: AideAuDiagnostic }] : []),
+        { name: "Récapitulatif", component: PatientSummary }
+    ];
+
     return (
         <div style={{ display: 'flex' }}>
             <Toaster />
@@ -198,10 +200,10 @@ const PatientUpdateContainer: React.FC<PatientUpdateContainerProps> = ({ patient
                         {currentStep === 4 && (
                             <AnalysisForm initialData={analysis} onSubmit={handleAnalysisSubmit} />
                         )}
-                        {currentStep === 5 && (
+                        {currentStep === 5 && user?.role === 'docteur' && (
                             <AideAuDiagnostic initialData={aideAuDiagnostic} onSubmit={handleAideDiagnosticSubmit}   />
                         )}
-                        {currentStep === 6 && (
+                        {currentStep === stepComponents.length - 1 && (
                             <PatientSummary
                                 personalInfo={personalInfo}
                                 drugAllergies={drugAllergies}
@@ -216,14 +218,16 @@ const PatientUpdateContainer: React.FC<PatientUpdateContainerProps> = ({ patient
                     </>
                 )}
                 <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-around', padding: '20px 0' }}>
-                    {currentStep > 0 && (
-                        <button onClick={() => setCurrentStep(currentStep - 1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: "black" }}>
-                            <FaChevronLeft /> Avant
+                    <button onClick={() => setCurrentStep((prev) => (prev > 0 ? prev - 1 : prev))} disabled={currentStep === 0}>
+                        <FaChevronLeft /> Précédent
+                    </button>
+                    {currentStep === stepComponents.length - 1 ? (
+                        <button onClick={handleFinalSubmit}>
+                            Enregistrer <FaCheck />
                         </button>
-                    )}
-                    {currentStep < stepComponents.length - 1 && (
-                        <button onClick={() => setCurrentStep(currentStep + 1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: "black" }}>
-                            Après <FaChevronRight />
+                    ) : (
+                        <button onClick={goNext} disabled={currentStep === stepComponents.length - 1}>
+                            Suivant <FaChevronRight />
                         </button>
                     )}
                 </div>
