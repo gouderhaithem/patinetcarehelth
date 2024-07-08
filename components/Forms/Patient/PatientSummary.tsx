@@ -40,7 +40,6 @@ const PatientSummary: React.FC<PatientSummaryProps> = ({
             [section]: !prevState[section],
         }));
     };
-console.log(aideAuDiagnostic);
 
     const renderSection = (title, content, sectionName) => {
         const isExpanded = expandedSections[sectionName];
@@ -167,8 +166,7 @@ console.log(aideAuDiagnostic);
                     <p>{aideAuDiagnostic}</p>
                 </div>
             ), 'aideAuDiagnostic')}
-            <button onClick={onSubmit}
-                >
+            <button onClick={onSubmit}>
                 Soumettre le Dossier
             </button>
         </div>
